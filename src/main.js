@@ -1,4 +1,5 @@
 import "./css/index.css"
+import IMask from "imask"
 
 const ccBgColor01 = document.querySelector(".cc-bg svg > g g:nth-child(1) path")
 const ccBgColor02 = document.querySelector(".cc-bg svg > g g:nth-child(2) path")
@@ -19,3 +20,27 @@ function setCardType(type) {
 }
 
 globalThis.setCardType = setCardType
+
+const securityCode = document.querySelector("#security-code")
+const securityCodePattern = {
+  mask: "0000"
+}
+const securityCodeMasked = IMask(securityCode, securityCodePattern)
+
+const expirationDate = document.querySelector("#expiration-date")
+const expirationDatePattern = {
+  mask: "MM{/}YY",
+  blocks: {
+    YY: {
+      mask: IMask.MaskedRange,
+      from: new Date().getFullYear,
+      to: 
+    }
+    MM: {
+      mask: Imask.MaskedRange,
+      from: 1,
+      to: 12
+    },
+  },
+}
+const expirationDateMasked = IMask(expirationDate, expirationDatePattern)
