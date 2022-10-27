@@ -5,8 +5,6 @@ const ccBgColor01 = document.querySelector(".cc-bg svg > g g:nth-child(1) path")
 const ccBgColor02 = document.querySelector(".cc-bg svg > g g:nth-child(2) path")
 const ccLogo = document.querySelector(".cc-logo span:nth-child(2) img")
 
-
-
 function setCardType(type) {
   const colors = {
     visa: ["#436D99", "#2D57F2"],
@@ -16,14 +14,14 @@ function setCardType(type) {
 
   ccBgColor01.setAttribute("fill", colors[type][0])
   ccBgColor02.setAttribute("fill", colors[type][1])
-  ccLogo.setAttribute("src", ` cc-${type}.svg ` )
+  ccLogo.setAttribute("src", ` cc-${type}.svg `)
 }
 
 globalThis.setCardType = setCardType
 
 const securityCode = document.querySelector("#security-code")
 const securityCodePattern = {
-  mask: "0000"
+  mask: "0000",
 }
 const securityCodeMasked = IMask(securityCode, securityCodePattern)
 
@@ -34,12 +32,12 @@ const expirationDatePattern = {
     YY: {
       mask: IMask.MaskedRange,
       from: String(new Date().getFullYear()).slice(2),
-      to: String(new Date().getFullYear() +10).slice(2)
+      to: String(new Date().getFullYear() + 10).slice(2),
     },
     MM: {
       mask: IMask.MaskedRange,
       from: 1,
-      to: 12
+      to: 12,
     },
   },
 }
@@ -50,12 +48,12 @@ const cardNumberPattern = {
   mask: [
     {
       mask: "0000 0000 0000 0000",
-      regex:/^4\d{0,15}/,
+      regex: /^4\d{0,15}/,
       cardtype: "visa",
     },
     {
       mask: "0000 0000 0000 0000",
-      regex:/^5[1-5]\d{0,2}|^22[2-9]\d|^2[3-7]\d{0,2}\d{0,12}/,
+      regex: /^5[1-5]\d{0,2}|^22[2-9]\d|^2[3-7]\d{0,2}\d{0,12}/,
       cardtype: "mastercard",
     },
     {
@@ -63,13 +61,21 @@ const cardNumberPattern = {
       cardtype: "default",
     },
   ],
-  dispatch: function(appended, dynamicMasked) {
-          let number = (dynamicMasked.value + appended).replace(/\D/g, "")
-          let foundMask = dynamicMasked.compiledMasked.find(function (item) {
-            return number.match(item.regex)
-          })
-          
-          return foundMask
+  dispatch: function (appended, dynamicMasked) {
+    let number = (dynamicMasked.value + appended).replace(/\D/g, "")
+    let foundMask = dynamicMasked.compiledMasked.find(function (item) {
+      return number.match(item.regex)
+    })
+
+    return foundMask
   },
 }
 let cardNumberMasked = IMask(cardNumber, cardNumberPattern)
+
+const addButton = document.querySelector("#add-card")
+addButton.addEventListener("click", () => {
+  alert("Vicê clicou no botão")
+})
+document.querySelector("form").addEventListener("submit", (event) => {
+  event.preventDefault
+})
